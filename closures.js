@@ -23,13 +23,13 @@ function outer() {
 */
   
 // Code Here
-
+let inner = outer();
 
 
 //Once you do that, invoke inner.
 
 //Code Here
-
+inner("Jeremy");
 
 
 ////////// PROBLEM 2 //////////
@@ -52,8 +52,8 @@ function callFriend(name) {
 */
 
 //Code Here
-
-
+let callJake = callFriend("Jake");
+callJake("435-215-9248");
 
 ////////// PROBLEM 3 //////////
 
@@ -62,15 +62,20 @@ function callFriend(name) {
 */
 
 //Code Here
-
+function makeCounter() {  
+  let count = 1;
+  return function() {
+    return count++;
+  };
+}
 
 
 //Uncomment this once you make your function
-//   var count = makeCounter();
-//   count(); // 1
-//   count(); // 2
-//   count(); // 3
-//   count(); // 4
+  var count = makeCounter();
+  count(); // 1
+  count(); // 2
+  count(); // 3
+  count(); // 4
 
 
 
@@ -87,17 +92,26 @@ function callFriend(name) {
 
 function counterFactory(value) {
   // Code here.
-
+  let total = value;
+  function inc() {
+    total++;
+    return total;
+  }
+  function dec() {
+    total--;
+    return total;
+  }
   return {
-
+    inc, 
+    dec
   };
 }
 
 counter = counterFactory(10);
-// counter.inc() // 11
-// counter.inc() // 12
-// counter.inc() // 13
-// counter.dec() // 12
+counter.inc() // 11
+counter.inc() // 12
+counter.inc() // 13
+counter.dec() // 12
 
 
 
@@ -113,9 +127,13 @@ function motivation( firstname, lastname ) {
   var welcomeText = "You're doing awesome, keep it up";
 
   // code message function here.
+  function message() {
+    return welcomeText + " " + firstname + " " + lastname + ".";
+    // return `${welcomeText} ${firstname} ${lastname}.`
+  }
 
   //Uncommment this to return the value of your message function
-  //return message;
+  return message;
 }
 
 var greeting = motivation('Billy', 'Bob'); // 'You're doing awesome keep it up Billy Bob.
@@ -138,15 +156,19 @@ var module = (function() {
 
   function privateMethod(){
     return "Hi, I'm " + person.name + ", age " + person.age + " from " + person.location;
+    
   }
 
   // Anything that is being returned is made public and can be invoked from
   // outside our lexical scope
   return {
     // Code here.
+    publicMethod: function() {
+      return privateMethod();
+    }
   };
 })();
-
+module.publicMethod();
 
 
 ////////// PROBLEM 7 //////////
@@ -163,6 +185,12 @@ function secretNumber() {
 
   return {
     // Code here
+    addToSecret: function(num) {
+      return secret += num
+    },
+    takeAwayFromSecret: function(num) {
+      return secret -= num
+    }
   };
 }
 
@@ -188,9 +216,12 @@ function secretNumber() {
 
 function timeOutCounter() {
   for (var i = 0; i <= 5; i++) {
-    setTimeout(function() {
-      console.log(i);
-    }, i * 1000);
+    function runTimeout(currentValue) {
+      setTimeout(function() {
+        console.log(currentValue);
+      }, currentValue * 1000);
+    }
+    runTimeout(i);
   }
 }
 timeOutCounter();
